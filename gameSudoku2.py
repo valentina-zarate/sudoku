@@ -26,8 +26,13 @@ class JuegoSudoku(ttk.Frame):
             else:
                 self.tabla[col][fila].config(text=str(int(num)+1))
                 
-    def comprobar(self):
-        pass
+    def comprobar(self, col, fila):
+        for a in self.solucion:
+            for b in a:
+                for c in self.lista:
+                    if b != c:
+                        self.tabla[col][fila.config]
+                        
         
     
     def crear_sudoku(self, sudoku):
@@ -37,14 +42,14 @@ class JuegoSudoku(ttk.Frame):
         self.frame2=tk.Frame(self.interface)
         self.frame2.pack(fill="both", expand=True)
         self.frame2.config(bd=22, relief="flat", bg="#f1f1f1")
-        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=self.comprobar)
+        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=partial(self.comprobar, i, j))
         self.comprob.config(font="Arial 9")
         self.comprob.grid(column=9, row=4)
         self.dificultad=ttk.Label(self.frame2, text=self.dificultad, font="Arial 15", background="#f1f1f1")
         self.dificultad.grid(column=9, row=9)
         self.tabla=[]
         for i in range(len(sudoku)):
-            lista=[]
+            self.lista=[]
             for j in range(len(sudoku[0])):
                 if sudoku[i][j]==0:
                     sudoku[i][j]=""
@@ -57,8 +62,8 @@ class JuegoSudoku(ttk.Frame):
                 if sudoku[i][j]:
                     btn.config(fg='#0b334f')
                 btn.grid(column=j, row=i)
-                lista.append(btn)
-            self.tabla.append(lista)
+                self.lista.append(btn)
+            self.tabla.append(self.lista)
         
     
     def easy(self):
