@@ -26,12 +26,8 @@ class JuegoSudoku(ttk.Frame):
             else:
                 self.tabla[col][fila].config(text=str(int(num)+1))
                 
-    def comprobar(self, col, fila):
-        for a in self.solucion:
-            for b in a:
-                for c in self.lista:
-                    if b != c:
-                        self.tabla[col][fila.config]
+    def comprobar(self):
+        pass
                         
         
     
@@ -42,11 +38,11 @@ class JuegoSudoku(ttk.Frame):
         self.frame2=tk.Frame(self.interface)
         self.frame2.pack(fill="both", expand=True)
         self.frame2.config(bd=22, relief="flat", bg="#f1f1f1")
-        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=partial(self.comprobar, i, j))
-        self.comprob.config(font="Arial 9")
-        self.comprob.grid(column=9, row=4)
         self.dificultad=ttk.Label(self.frame2, text=self.dificultad, font="Arial 15", background="#f1f1f1")
         self.dificultad.grid(column=9, row=9)
+        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=self.comprobar)
+        self.comprob.config(font="Arial 9")
+        self.comprob.grid(column=9, row=4)
         self.tabla=[]
         for i in range(len(sudoku)):
             self.lista=[]

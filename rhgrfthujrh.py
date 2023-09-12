@@ -1,16 +1,8 @@
-import requests
-import tkinter as tk
-from tkinter import ttk
-
-url="https://sudoku-api.vercel.app/api/dosuku"
-sudoku=[]
-entrada="f"
-dificultad= ""
-if entrada == "f":
-    while dificultad != "Easy":
-        resp=requests.get(url)
-        print(resp)
-        if dificultad=="Easy":
-            break
-        
-        <Response [504]>
+'''        for a in self.solucion:
+            for b in a:
+                for c in self.tabla:
+                    for d in c:
+                        if b == d:
+                            self.tabla[col][fila].config(background="red")
+                        else:
+                            self.tabla[col][fila].config(background="green")'''
