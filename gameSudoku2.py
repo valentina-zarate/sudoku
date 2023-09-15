@@ -16,18 +16,38 @@ class JuegoSudoku(ttk.Frame):
         self.interface=interface
         vent_diff.ventana_dificultad(self)
         
-    def test_button(self, col, fila):
+    def click_button(self, fila, col):
         print(fila, col)
-        num = self.tabla[col][fila].cget('text')
-        fgColor = self.tabla[col][fila].cget('fg')
+        num = self.tabla[fila][col].cget('text')
+        fgColor = self.tabla[fila][col].cget('fg')
         if fgColor != '#0b334f':
             if not num or num=="9":
-                self.tabla[col][fila].config(text="1")
+                numero="1"
             else:
-                self.tabla[col][fila].config(text=str(int(num)+1))
+                numero=str(int(num)+1)
+            if self.check_number(numero,fila,col):
+                color=str(self.tabla[fila][col].cget('bg'))
+            else:
+                color="red"
+            self.tabla[fila][col].config(text=numero, bg=color)
+            
+    def check_number(self, number, row, col):
+        print("number:",number)
+        for r in range(len(self.tabla)):
+            cuadradito=str(self.tabla[r][col].cget("text"))
+            if cuadradito==str(number):
+                return False
+        for c in range(len(self.tabla)):
+            cuadradito=str(self.tabla[row][c].cget("text"))
+            if cuadradito==str(number):
+                return False
+        return True
+                
                 
     def comprobar(self):
-        pass
+        for a in self.solucion:
+            for b in a:
+                pass
                         
         
     
@@ -40,9 +60,6 @@ class JuegoSudoku(ttk.Frame):
         self.frame2.config(bd=22, relief="flat", bg="#f1f1f1")
         self.dificultad=ttk.Label(self.frame2, text=self.dificultad, font="Arial 15", background="#f1f1f1")
         self.dificultad.grid(column=9, row=9)
-        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=self.comprobar)
-        self.comprob.config(font="Arial 9")
-        self.comprob.grid(column=9, row=4)
         self.tabla=[]
         for i in range(len(sudoku)):
             self.lista=[]
@@ -50,16 +67,19 @@ class JuegoSudoku(ttk.Frame):
                 if sudoku[i][j]==0:
                     sudoku[i][j]=""
                
-                btn=tk.Button(self.frame2,height=2,width=2, text=sudoku[i][j], command=partial(self.test_button, i, j))
+                btn=tk.Button(self.frame2,height=2,width=2, text=sudoku[i][j], command=partial(self.click_button, i, j))
                 rR=i//3
                 cC=j//3
                 if not (rR+cC) % 2:
                     btn.config(bg='lightblue')
                 if sudoku[i][j]:
-                    btn.config(fg='#0b334f')
+                    btn.config(fg='#0b334f', font='bold')
                 btn.grid(column=j, row=i)
                 self.lista.append(btn)
             self.tabla.append(self.lista)
+        self.comprob=tk.Button(self.frame2, height=2, width=7, text="Comprobar", command=self.comprobar)
+        self.comprob.config(font="Arial 9")
+        self.comprob.grid(column=9, row=4)
         
     
     def easy(self):
