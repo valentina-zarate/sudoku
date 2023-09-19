@@ -20,29 +20,47 @@ class JuegoSudoku(ttk.Frame):
         print(fila, col)
         num = self.tabla[fila][col].cget("text")
         fgColor = self.tabla[fila][col].cget("fg")
-        color1 = str(self.tabla[fila][col].cget("bg"))
         if fgColor != "#0b334f":
             if not num or num == "9":
                 numero = "1"
             else:
                 numero = str(int(num)+1)
             if self.check_number(numero,fila,col):
-                color = color1
-                print(color)
+                color = self.get_color(fila, col)
             else:
                 color = "red"
             self.tabla[fila][col].config(text = numero, bg = color)
             
     def check_number(self, number, row, col):
-        print("number:",number)
         for r in range(len(self.tabla)):
             cuadradito = str(self.tabla[r][col].cget("text"))
             if cuadradito == str(number):
+                self.tabla[r][col].config(bg = "red")
                 return False
+            else:
+                color=self.get_color(r, col)
+                self.tabla[r][col].config(bg = color)
         for c in range(len(self.tabla)):
             cuadradito = str(self.tabla[row][c].cget("text"))
             if cuadradito == str(number):
+                self.tabla[row][c].config(bg = "red")
                 return False
+            else:
+                color=self.get_color(row, c)
+                self.tabla[row][c].config(bg = color)
+        rowCua = (row // 3)
+        colCua = (col // 3)
+        mcol = colCua * 2 + colCua
+        mrow = rowCua * 2 + rowCua
+        for a in range(3):
+            for b in range(3):
+                cuadradito = str(self.tabla[mrow + a][mcol + b].cget("text"))
+                if cuadradito == str(number):
+                    self.tabla[mrow+a][mcol+b].config(bg = "red")
+                    return False
+                else:
+                    color=self.get_color(mrow+a, mcol+b)
+                    self.tabla[mrow+a][mcol+b].config(bg = color)       
         return True
                 
                 
@@ -70,12 +88,10 @@ class JuegoSudoku(ttk.Frame):
                     sudoku[i][j] = ""
                
                 btn = tk.Button(self.frame2, height = 2, width = 2, text=sudoku[i][j], command = partial(self.click_button, i, j))
-                rR = i // 3
-                cC = j // 3
-                if not (rR + cC) % 2:
-                    btn.config(bg = 'lightblue')
+                color=self.get_color(i,j)
+                btn.config(bg=color)
                 if sudoku[i][j]:
-                    btn.config(fg = '#0b334f', font = 'bold')
+                    btn.config(fg = '#032e4d')
                 btn.grid(column = j, row = i)
                 self.lista.append(btn)
             self.tabla.append(self.lista)
@@ -83,12 +99,18 @@ class JuegoSudoku(ttk.Frame):
         self.comprob.config(font = "Arial 9")
         self.comprob.grid(column = 9, row = 4)
         
-    
+    def get_color(self, i, j):
+        rR = i // 3
+        cC = j // 3
+        if not (rR + cC) % 2:
+            return 'lightblue'
+        else:
+            return 'gainsboro'
+        
     def easy(self):
         resp = "504"
         while self.dificultad != "Easy" or "504" in resp:
             resp = requests.get(self.url)
-            print(resp, self.dificultad)
             if "200" in str(resp):
                 self.json = resp.json()
                 self.dificultad = self.json["newboard"]["grids"][0]["difficulty"]
