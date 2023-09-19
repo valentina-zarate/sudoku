@@ -32,11 +32,12 @@ class JuegoSudoku(ttk.Frame):
             self.tabla[fila][col].config(text = numero, bg = color)
             
     def check_number(self, number, row, col):
+        result=[]
         for r in range(len(self.tabla)):
             cuadradito = str(self.tabla[r][col].cget("text"))
             if cuadradito == str(number):
                 self.tabla[r][col].config(bg = "red")
-                return False
+                result.append(False)
             else:
                 color=self.get_color(r, col)
                 self.tabla[r][col].config(bg = color)
@@ -44,7 +45,7 @@ class JuegoSudoku(ttk.Frame):
             cuadradito = str(self.tabla[row][c].cget("text"))
             if cuadradito == str(number):
                 self.tabla[row][c].config(bg = "red")
-                return False
+                result.append(False)
             else:
                 color=self.get_color(row, c)
                 self.tabla[row][c].config(bg = color)
@@ -57,20 +58,20 @@ class JuegoSudoku(ttk.Frame):
                 cuadradito = str(self.tabla[mrow + a][mcol + b].cget("text"))
                 if cuadradito == str(number):
                     self.tabla[mrow+a][mcol+b].config(bg = "red")
-                    return False
+                    result.append(False)
                 else:
                     color=self.get_color(mrow+a, mcol+b)
-                    self.tabla[mrow+a][mcol+b].config(bg = color)       
+                    self.tabla[mrow+a][mcol+b].config(bg = color)
+        for i in result:
+            if i == False:
+                return False      
         return True
-                
-                
+                        
     def comprobar(self):
         for a in self.solucion:
             for b in a:
                 pass
                         
-        
-    
     def crear_sudoku(self, sudoku):
         print(sudoku)
         print(self.solucion)
