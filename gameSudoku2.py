@@ -2,7 +2,7 @@ import requests
 import tkinter as tk
 from tkinter import ttk
 import Fventana_dificultad as vent_diff
-from Fventana_dificultad import ventana_dificultad
+from Fventana_dificultad import *
 from functools import partial
 
 class JuegoSudoku(ttk.Frame):
@@ -11,6 +11,7 @@ class JuegoSudoku(ttk.Frame):
     dificultad = ""
     url = "https://sudoku-api.vercel.app/api/dosuku"
     interface = ""
+    errores = 0
     
     def __init__(self,interface):
         self.interface = interface
@@ -30,6 +31,9 @@ class JuegoSudoku(ttk.Frame):
             else:
                 color = "red"
             self.tabla[fila][col].config(text = numero, bg = color)
+            self.cont_err.config(text = f"Errores: {self.errores}/5")
+            if self.errores > 5:
+                self.errors()
             
     def check_number(self, number, row, col):
         result=[]
@@ -64,9 +68,17 @@ class JuegoSudoku(ttk.Frame):
                     self.tabla[mrow+a][mcol+b].config(bg = color)
         for i in result:
             if i == False:
+                self.errores += 1
                 return False      
         return True
-                        
+    
+    def errors(self):
+        self.frame2.destroy()
+        self.frame3 = tk.Frame(self.interface)
+        self.frame3.pack(fill = "both", expand = True)
+        self.frame3.config(bd = 22, relief = "flat", bg = "#f1f1f1")
+        self.err_msg = ttk.Label(self.frame3, text= "PARTIDA TERMINADA\nPerdiste el juego porque cometiste 5 errores.", font= "Arial 18", background= "#f1f1f1")
+
     def comprobar(self):
         for a in self.solucion:
             for b in a:
@@ -81,14 +93,15 @@ class JuegoSudoku(ttk.Frame):
         self.frame2.config(bd = 22, relief = "flat", bg = "#f1f1f1")
         self.dificultad = ttk.Label(self.frame2, text = self.dificultad, font = "Arial 15", background = "#f1f1f1")
         self.dificultad.grid(column = 9, row = 9)
+        self.cont_err = ttk.Label(self.frame2, text = "Errores: 0/5", font = "Arial 15", background = "#f1f1f1")
+        self.cont_err.grid(column = 9,row = 10)
         self.tabla = []
         for i in range(len(sudoku)):
             self.lista = []
             for j in range(len(sudoku[0])):
                 if sudoku[i][j] == 0:
                     sudoku[i][j] = ""
-               
-                btn = tk.Button(self.frame2, height = 2, width = 2, text=sudoku[i][j], command = partial(self.click_button, i, j))
+                btn = tk.Button(self.frame2, height = 2, width = 2, text = sudoku[i][j], command = partial(self.click_button, i, j))
                 color=self.get_color(i,j)
                 btn.config(bg=color)
                 if sudoku[i][j]:
@@ -109,44 +122,17 @@ class JuegoSudoku(ttk.Frame):
             return 'gainsboro'
         
     def easy(self):
-        resp = "504"
-        while self.dificultad != "Easy" or "504" in resp:
-            resp = requests.get(self.url)
-            if "200" in str(resp):
-                self.json = resp.json()
-                self.dificultad = self.json["newboard"]["grids"][0]["difficulty"]
-        self.sudoku = self.json["newboard"]["grids"][0]["value"]
-        self.solucion = self.json["newboard"]["grids"][0]["solution"]
-        self.dificultad = " Dificultad:\n  Fácil"
-        self.crear_sudoku(self.sudoku)
+        vent_diff.easy(self)
         
     def medium(self):
-        resp = "504"
-        while self.dificultad != "Medium" or "504" in resp:
-            resp = requests.get(self.url)
-            if "200" in str(resp):
-                self.json = resp.json()
-                self.dificultad=self.json["newboard"]["grids"][0]["difficulty"]
-        self.sudoku = self.json["newboard"]["grids"][0]["value"]
-        self.solucion = self.json["newboard"]["grids"][0]["solution"]
-        self.dificultad = " Dificultad:\n  Medio"
-        self.crear_sudoku(self.sudoku)
+        vent_diff.medium(self)
         
     def hard(self):
-        resp = "504"
-        while self.dificultad != "Hard" or "504" in resp:
-            resp = requests.get(self.url)
-            if "200" in str(resp):
-                self.json = resp.json()
-                self.dificultad=self.json["newboard"]["grids"][0]["difficulty"]
-        self.sudoku = self.json["newboard"]["grids"][0]["value"]
-        self.solucion = self.json["newboard"]["grids"][0]["solution"]
-        self.dificultad = " Dificultad: Difícil"
-        self.crear_sudoku(self.sudoku)   
+        vent_diff.hard(self)   
     
 vent = tk.Tk()
 vent.title("Sudoku Zarate-Vargas")
 vent.resizable(False, False)
 vent.config(background = "#f1f1f1")
-eq=JuegoSudoku(vent)
+eq = JuegoSudoku(vent)
 vent.mainloop()
