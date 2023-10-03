@@ -4,6 +4,7 @@ from tkinter import ttk
 import Fventana_dificultad as vent_diff
 from Fventana_dificultad import *
 from functools import partial
+from PIL import ImageTk, Image
 
 class JuegoSudoku(ttk.Frame):
     sudoku = []
@@ -21,7 +22,7 @@ class JuegoSudoku(ttk.Frame):
         print(fila, col)
         num = self.tabla[fila][col].cget("text")
         fgColor = self.tabla[fila][col].cget("fg")
-        if fgColor != "#0b334f":
+        if fgColor != "#032e4d":
             if not num or num == "9":
                 numero = "1"
             else:
@@ -76,8 +77,14 @@ class JuegoSudoku(ttk.Frame):
         self.frame2.destroy()
         self.frame3 = tk.Frame(self.interface)
         self.frame3.pack(fill = "both", expand = True)
-        self.frame3.config(bd = 22, relief = "flat", bg = "#f1f1f1")
-        self.err_msg = ttk.Label(self.frame3, text= "PARTIDA TERMINADA\nPerdiste el juego porque cometiste 5 errores.", font= "Arial 18", background= "#f1f1f1")
+        self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
+        self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "red", background = "#f1f1f1")
+        self.part_end.grid(column = 1, row = 1)
+        self.err_msg = ttk.Label(self.frame3, text = "Perdiste el juego porque cometiste más de 5 errores.", font = "Arial 16", background = "#f1f1f1")
+        self.err_msg.grid(column = 1, row = 2)
+        self.img = ImageTk.PhotoImage(Image.open("noyippee.png"))
+        self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
+        self.panel.grid(column = 1, row = 4)
 
     def comprobar(self):
         for a in self.solucion:
@@ -105,7 +112,7 @@ class JuegoSudoku(ttk.Frame):
                 color=self.get_color(i,j)
                 btn.config(bg=color)
                 if sudoku[i][j]:
-                    btn.config(fg = '#032e4d')
+                    btn.config(fg = "#032e4d")
                 btn.grid(column = j, row = i)
                 self.lista.append(btn)
             self.tabla.append(self.lista)
