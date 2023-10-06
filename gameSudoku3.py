@@ -107,11 +107,14 @@ class JuegoSudoku(ttk.Frame):
         self.frame.destroy()
         self.frame2 = tk.Frame(self.interface)
         self.frame2.pack(fill = "both", expand = True)
-        self.frame2.config(bd = 22, relief = "flat", bg = "#f1f1f1")
+        self.frame2.config(bd = 35, relief = "flat", bg = "#f1f1f1")
         self.dificultad = ttk.Label(self.frame2, text = self.dificultad, font = "Arial 15", background = "#f1f1f1")
         self.dificultad.grid(column = 9, row = 9)
         self.cont_err = ttk.Label(self.frame2, text = "Errores: 0/5", font = "Arial 15", background = "#f1f1f1")
         self.cont_err.grid(column = 9,row = 10)
+        for h in range(len(sudoku[0])):
+            self.select_btn = tk.Button(self.frame2, height = 2, width = 2, text = str(h+1), bg = "#C0DAE2")
+            self.select_btn.grid(column = h, row = 11)
         self.tabla = []
         for i in range(len(sudoku)):
             self.lista = []
@@ -127,7 +130,7 @@ class JuegoSudoku(ttk.Frame):
                 self.lista.append(btn)
             self.tabla.append(self.lista)
         self.comprob = tk.Button(self.frame2, height = 2, width = 7, text = "Comprobar", command = self.comprobar)
-        self.comprob.config(font = "Arial 9")
+        self.comprob.config(font = "Arial 9", bg = "#C0DAE2")
         self.comprob.grid(column = 9, row = 4)
         
     def get_color(self, i, j):

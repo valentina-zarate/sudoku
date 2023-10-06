@@ -28,7 +28,7 @@ def easy(self):
                 self.dificultad = self.json["newboard"]["grids"][0]["difficulty"]
         self.sudoku = self.json["newboard"]["grids"][0]["value"]
         self.solucion = self.json["newboard"]["grids"][0]["solution"]
-        self.dificultad = " Dificultad:\n  Fácil"
+        self.dificultad = " Dificultad: Fácil"
         self.crear_sudoku(self.sudoku)
         
 def medium(self):
@@ -40,7 +40,7 @@ def medium(self):
                 self.dificultad=self.json["newboard"]["grids"][0]["difficulty"]
         self.sudoku = self.json["newboard"]["grids"][0]["value"]
         self.solucion = self.json["newboard"]["grids"][0]["solution"]
-        self.dificultad = " Dificultad:\n  Medio"
+        self.dificultad = " Dificultad: Medio"
         self.crear_sudoku(self.sudoku)
         
 def hard(self):
