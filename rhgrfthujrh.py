@@ -1,12 +1,14 @@
-'''        for a in self.solucion:
-            for b in a:
-                for c in self.tabla:
-                    for d in c:
-                        if b != d:
-                            self.tabla[col][fila].config(background="red")
-                        else:
-                            self.tabla[col][fila].config(background="green")'''
-'''     self.frame2 = tk.Frame(self.interface)
-        self.frame2.pack(fill = "both", expand = True)'''
-        
-#functools partial, enviando a la función comprobar i y j (columna y fila) como para la función test_button
+from tkinter import *    
+
+def command(d):
+   print(d)
+
+a = Tk()
+b = []
+
+for c in range(0, 5):
+    x = Button(a, text=c, command=lambda j=c: command(j))
+    x.pack()
+    b.append(x)
+
+a.mainloop()

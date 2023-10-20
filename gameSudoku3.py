@@ -13,31 +13,31 @@ class JuegoSudoku(ttk.Frame):
     url = "https://sudoku-api.vercel.app/api/dosuku"
     interface = ""
     errores = 0
+    select = 0
     
     def __init__(self,interface):
         self.interface = interface
         #La función de la ventana de selección de dificultad se encuentra en un archivo aparte
         vent_diff.ventana_dificultad(self)
-        
+
+    def save_button(self, n):
+        self.select = n
+        self.selection.config(text = f"Nro seleccionado: {self.select}")    
+
     def click_button(self, fila, col):
         #Lo que pasa cuando se hace click en una casilla
         print(fila, col)
-        num = self.tabla[fila][col].cget("text")
         fgColor = self.tabla[fila][col].cget("fg")
         if fgColor != "#032e4d":
             #Detecta si el número no es uno de los que te da el propio sudoku tomando el color de la fuente
-            if not num or num == "9":
-                #Si el número del botón es 9 o no hay número se coloca un 1
-                numero = "1"
-            else:
-                numero = str(int(num)+1)
-                #Se le suma 1 al número del botón hasta llegar a 9
+            numero = self.select
             if self.check_number(numero,fila,col):
                 color = self.get_color(fila, col)
             else:
                 color = "red"
-            self.tabla[fila][col].config(text = numero, bg = color)
-            self.cont_err.config(text = f"Errores: {self.errores}/5")
+            if numero != 0:
+                self.tabla[fila][col].config(text = numero, bg = color)
+                self.cont_err.config(text = f"Errores: {self.errores}/5")
             if self.errores > 5:
                 self.errors()
             
@@ -102,19 +102,26 @@ class JuegoSudoku(ttk.Frame):
                         
     def crear_sudoku(self, sudoku):
         #Crea la ventana con el sudoku principal
+        #Configura el frame, destruye el de la ventana de dificiltad y genera el del juego        
         print(sudoku)
         print(self.solucion)
         self.frame.destroy()
         self.frame2 = tk.Frame(self.interface)
         self.frame2.pack(fill = "both", expand = True)
         self.frame2.config(bd = 35, relief = "flat", bg = "#f1f1f1")
+        #Cuadro de texto que te dice la dificultad que estás jugando
         self.dificultad = ttk.Label(self.frame2, text = self.dificultad, font = "Arial 15", background = "#f1f1f1")
         self.dificultad.grid(column = 9, row = 9)
+        #Cuadro de texto que te dice los errores que llevas
         self.cont_err = ttk.Label(self.frame2, text = "Errores: 0/5", font = "Arial 15", background = "#f1f1f1")
         self.cont_err.grid(column = 9,row = 10)
+        #Crea la fila de botones para seleccionar número
         for h in range(len(sudoku[0])):
-            self.select_btn = tk.Button(self.frame2, height = 2, width = 2, text = str(h+1), bg = "#C0DAE2")
+            self.select_btn = tk.Button(self.frame2, height = 2, width = 2, text = str(h+1), bg = "#C0DAE2", command = lambda n=h+1: self.save_button(n))
             self.select_btn.grid(column = h, row = 11)
+        self.selection = ttk.Label(self.frame2, text= "Nro seleccionado: ", font = "Arial 11", background = "#f1f1f1")
+        self.selection.grid(column = 9, row = 11)
+            #Crea los botones del cuadro de sudoku
         self.tabla = []
         for i in range(len(sudoku)):
             self.lista = []
@@ -129,10 +136,11 @@ class JuegoSudoku(ttk.Frame):
                 btn.grid(column = j, row = i)
                 self.lista.append(btn)
             self.tabla.append(self.lista)
+        #Crea el botón comprobar
         self.comprob = tk.Button(self.frame2, height = 2, width = 7, text = "Comprobar", command = self.comprobar)
         self.comprob.config(font = "Arial 9", bg = "#C0DAE2")
         self.comprob.grid(column = 9, row = 4)
-        
+
     def get_color(self, i, j):
         #Colorea los cuadrantes
         rR = i // 3
@@ -151,7 +159,7 @@ class JuegoSudoku(ttk.Frame):
         vent_diff.medium(self)
         
     def hard(self):
-        #genera un sudoku de dificultad dificil
+        #genera un sudoku de dificultad difícil
         vent_diff.hard(self)   
     
 vent = tk.Tk()
