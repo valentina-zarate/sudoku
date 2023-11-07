@@ -96,9 +96,30 @@ class JuegoSudoku(ttk.Frame):
         self.panel.grid(column = 1, row = 4)
 
     def comprobar(self):
-        for a in self.solucion:
-            for b in a:
-                pass
+        #Reune todos los números ya puestos en una lista de listas
+        self.tabla2 = []
+        for t in range(len(self.sudoku)):
+            self.lista2 = []
+            for l in range(len(self.sudoku[0])):
+                text_button = self.tabla[t][l].cget("text")
+                self.lista2.append(text_button)
+            self.tabla2.append(self.lista2)
+        #Compara la lista anterior con la de la solución
+        for a in range(len(self.sudoku)):
+            result = []
+            for b in range(len(self.sudoku)):
+                if self.tabla2[a][b] == self.solucion[a][b]:
+                    result.append(True)
+                else:
+                    color = "red"
+                    self.tabla[a][b].config(bg = color)
+                    result.append(False)
+                    break
+            if not False in result:
+                print("Yippe")
+
+
+
                         
     def crear_sudoku(self, sudoku):
         #Crea la ventana con el sudoku principal
