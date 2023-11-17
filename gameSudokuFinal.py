@@ -8,7 +8,6 @@ from PIL import ImageTk, Image
 
 class JuegoSudoku(ttk.Frame):
     sudoku = []
-    solucion = []
     dificultad = ""
     url = "https://sudoku-api.vercel.app/api/dosuku"
     interface = ""
@@ -26,7 +25,6 @@ class JuegoSudoku(ttk.Frame):
 
     def click_button(self, fila, col):
         #Lo que pasa cuando se hace click en una casilla
-        print(fila, col)
         fgColor = self.tabla[fila][col].cget("fg")
         if fgColor != "#032e4d":
             #Detecta si el número no es uno de los que te da el propio sudoku tomando el color de la fuente
@@ -125,18 +123,10 @@ class JuegoSudoku(ttk.Frame):
         #Si todas las casillas estáncompletas y sin errores salta la ventana de haber ganado el juego
         if not False in result:
             self.win()
-            
-            
-                    
-
-
-
-                        
+                         
     def crear_sudoku(self, sudoku):
         #Crea la ventana con el sudoku principal
         #Configura el frame, destruye el de la ventana de dificiltad y genera el del juego        
-        print(sudoku)
-        print(self.solucion)
         self.frame.destroy()
         self.frame2 = tk.Frame(self.interface)
         self.frame2.pack(fill = "both", expand = True)
