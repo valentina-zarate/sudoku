@@ -64,9 +64,9 @@ def win(self):
         self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
         self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "green", background = "#f1f1f1")
         self.part_end.grid(column = 1, row = 1)
-        self.err_msg = ttk.Label(self.frame3, text = "Completaste todas las casillas correctamente y ganaste el juego.", font = "Arial 16", background = "#f1f1f1")
-        self.err_msg.grid(column = 1, row = 2)
+        self.win_msg = ttk.Label(self.frame3, text = "Completaste todas las casillas correctamente y ganaste el juego.", font = "Arial 16", background = "#f1f1f1")
+        self.win_msg.grid(column = 1, row = 2)
         self.img = ImageTk.PhotoImage(Image.open("yippe.gif"))
         self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
         self.panel.grid(column = 1, row = 4)
-        
+             

@@ -77,14 +77,6 @@ class JuegoSudoku(ttk.Frame):
                 self.errores += 1
                 return False      
         return True
-    
-    def lose(self):
-        #Ventana que aparece cuando se pierde el juego
-        vent_othr.lose(self)
-    
-    def win(self):
-        #Ventana que aparece al ganar el juego
-        vent_othr.win(self)
 
     def comprobar(self):
         #"Lee" todos los números uno a uno para asegurarse de que todas las casillas están llenas y sin errores
@@ -102,6 +94,14 @@ class JuegoSudoku(ttk.Frame):
         #Si todas las casillas estáncompletas y sin errores salta la ventana de haber ganado el juego
         if not False in result:
             self.win()
+              
+    def lose(self):
+        #Ventana que aparece cuando se pierde el juego
+        vent_othr.lose(self)
+        
+    def win(self):
+        #Ventana que aparece al ganar el juego
+        vent_othr.win(self)        
                          
     def crear_sudoku(self, sudoku):
         #Crea la ventana con el sudoku principal
