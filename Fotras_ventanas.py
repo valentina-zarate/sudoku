@@ -3,34 +3,6 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 from functools import partial
 
-def lose(self):
-        #Ventana que aparece cuando se pierde el juego
-        self.frame2.destroy()
-        self.frame3 = tk.Frame(self.interface)
-        self.frame3.pack(fill = "both", expand = True)
-        self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
-        self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "red", background = "#f1f1f1")
-        self.part_end.grid(column = 1, row = 1)
-        self.err_msg = ttk.Label(self.frame3, text = "Perdiste el juego porque cometiste más de 5 errores.", font = "Arial 16", background = "#f1f1f1")
-        self.err_msg.grid(column = 1, row = 2)
-        self.img = ImageTk.PhotoImage(Image.open("noyippee.png"))
-        self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
-        self.panel.grid(column = 1, row = 4)
-
-def win(self):
-        #Ventana que aparece al ganar el juego
-        self.frame2.destroy()
-        self.frame3 = tk.Frame(self.interface)
-        self.frame3.pack(fill = "both", expand = True)
-        self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
-        self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "green", background = "#f1f1f1")
-        self.part_end.grid(column = 1, row = 1)
-        self.err_msg = ttk.Label(self.frame3, text = "Completaste todas las casillas correctamente y ganaste el juego.", font = "Arial 16", background = "#f1f1f1")
-        self.err_msg.grid(column = 1, row = 2)
-        self.img = ImageTk.PhotoImage(Image.open("yippe.gif"))
-        self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
-        self.panel.grid(column = 1, row = 4)
-
 def crear_sudoku(self, sudoku):
         #Crea la ventana con el sudoku principal
         #Configura el frame, destruye el de la ventana de dificiltad y genera el del juego        
@@ -69,4 +41,32 @@ def crear_sudoku(self, sudoku):
                 btn.grid(column = j, row = i)
                 self.lista.append(btn)
             self.tabla.append(self.lista)
+            
+def lose(self):
+        #Ventana que aparece cuando se pierde el juego
+        self.frame2.destroy()
+        self.frame3 = tk.Frame(self.interface)
+        self.frame3.pack(fill = "both", expand = True)
+        self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
+        self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "red", background = "#f1f1f1")
+        self.part_end.grid(column = 1, row = 1)
+        self.err_msg = ttk.Label(self.frame3, text = "Perdiste el juego porque cometiste más de 5 errores.", font = "Arial 16", background = "#f1f1f1")
+        self.err_msg.grid(column = 1, row = 2)
+        self.img = ImageTk.PhotoImage(Image.open("noyippee.png"))
+        self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
+        self.panel.grid(column = 1, row = 4)
+
+def win(self):
+        #Ventana que aparece al ganar el juego
+        self.frame2.destroy()
+        self.frame3 = tk.Frame(self.interface)
+        self.frame3.pack(fill = "both", expand = True)
+        self.frame3.config(bd = 32, relief = "flat", bg = "#f1f1f1")
+        self.part_end = ttk.Label(self.frame3, text = "PARTIDA TERMINADA", font = "Arial 22", foreground = "green", background = "#f1f1f1")
+        self.part_end.grid(column = 1, row = 1)
+        self.err_msg = ttk.Label(self.frame3, text = "Completaste todas las casillas correctamente y ganaste el juego.", font = "Arial 16", background = "#f1f1f1")
+        self.err_msg.grid(column = 1, row = 2)
+        self.img = ImageTk.PhotoImage(Image.open("yippe.gif"))
+        self.panel = ttk.Label(self.frame3, image = self.img, background = "#f1f1f1")
+        self.panel.grid(column = 1, row = 4)
         
