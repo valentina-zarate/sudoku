@@ -83,10 +83,10 @@ class JuegoSudoku(ttk.Frame):
         for t in range(len(self.sudoku)):
             for l in range(len(self.sudoku[0])):
                 text_button = self.tabla[t][l].cget("text")
-                bg_button = self.tabla[t][l].cget("bg")
+                fg_button = self.tabla[t][l].cget("fg")
                 #Busca por un False y si lo encuentra termina el proceso
                 result = []
-                if text_button == "" or bg_button == "red":
+                if text_button == "" or fg_button == "red":
                     result.append(False)
                     break
                 else:
